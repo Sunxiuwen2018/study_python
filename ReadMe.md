@@ -13,3 +13,5 @@
 # 编写代码原则
 1. 简单代码往上放，
 2. 减少代码层级
+
+[详情见:](https://www.cnblogs.com/sunxiuwen/p/9213125.html)
