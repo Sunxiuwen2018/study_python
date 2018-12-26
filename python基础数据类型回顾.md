@@ -1,57 +1,67 @@
 # 基础数据类型回顾
 ## 一、概括 *七大类*
-    1. 布尔 bool =>真假
-    2. 数字 int
-    3. 浮点型 float
-    4. 空   None   ==> 空不是假，不能直接用于条件判断，需要加not/is才行，如 not None 或 is None
-    5. 字符串 str
-    6. 列表 list
-    7. 元组 tuple  ==> 不可变的列表，序列化会和列表一样的效果，区别是反序列化回来不会变成元组，而是列表
-    8. 字典 dict
-    9. 集合 set
+```python
+1. 布尔 bool =>真假
+2. 数字 int
+3. 浮点型 float
+4. 空   None   ==> 空不是假，不能直接用于条件判断，需要加not/is才行，如 not None 或 is None
+5. 字符串 str
+6. 列表 list
+7. 元组 tuple  ==> 不可变的列表，序列化会和列表一样的效果，区别是反序列化回来不会变成元组，而是列表
+8. 字典 dict
+9. 集合 set
 
-    **总结**
-        1. 可迭代数据类型：str、list、tuple、dict、set
-        2. 不可变数据类型：bool、int、float、str、tuple
-        3、 可变数据类型：list、dict、set
-        4、 可通过`+`号数据类型：int、float、str、list、tuple
+**总结**
+    1. 可迭代数据类型：str、list、tuple、dict、set
+    2. 不可变数据类型：bool、int、float、str、tuple
+    3、 可变数据类型：list、dict、set
+    4、 可通过`+`号数据类型：int、float、str、list、tuple
 
-        # 列表，字典，集合都有pop方法，del方法
-        # pop 列表按索引，字典按对象，集合随机删
-        # del 列表按索引，字典，集合按对象，只能删除整个集合
-        # remove 列表按对象，集合按对象，没有都报错，字典没有该方法,
-        # 列表批量增加extend，字典/集合update
+    # 列表，字典，集合都有pop方法，del方法
+    # pop 列表按索引，字典按对象，集合随机删
+    # del 列表按索引，字典，集合按对象，只能删除整个集合
+    # remove 列表按对象，集合按对象，没有都报错，字典没有该方法,
+    # 列表批量增加extend，字典/集合update
+```
 
 ### 布尔bool
-    1. 非0,非空则为True，None不是False[通过is或==判断都是不正确的]，只有None,0,"",[],(),{},ser()等通过bool转化才为False
-    2. is 判断的是内存地址，== 判断的是值
-    3. 条件判断优先级顺序： not  or  and
-    4. 对于or，左边非零取左边，and相反
+```python
+1. 非0,非空则为True，None不是False[通过is或==判断都是不正确的]，只有None,0,"",[],(),{},ser()等通过bool转化才为False
+2. is 判断的是内存地址，== 判断的是值
+3. 条件判断优先级顺序： 括号，not  or  and
+4. 对于or，左边非零取左边，and相反
+```
 
 ### 整形int
-    **基础**
-        二进制： 0，1
-        八进制： 0~7     三位一体
-        十进制： 0~9
-        十六进制： 0~F   四位一体
+```python
+**基础**
+    二进制： 0，1
+    八进制： 0~7     三位一体
+    十进制： 0~9
+    十六进制： 0~F   四位一体
+```
 
 **进制转换**
 
-    进制之间的转换要注意每个进制的基本数码范围！！！
+```python
+进制之间的转换要注意每个进制的基本数码范围！！！
 
-    二：0b  八：0o  十六：0x
+二：0b  八：0o  十六：0x
 
-    二进制转十进制   int('1110', 2)     # 后面的2就表示2进制
-    八进制转十进制   int('12345670', 8)
-    十六进制转十进制 int('9ABCDEF', 16)
+二进制转十进制   int('1110', 2)     # 后面的2就表示2进制
+八进制转十进制   int('12345670', 8)
+十六进制转十进制 int('9ABCDEF', 16)
 
-    十进制转二进制   bin(100)
-    十进制转成八进制  oct(8)
-    十进制转十六进制  hex(10)
-    二进制转十六进制  hex(int('111',2))
+十进制转二进制   bin(100)
+十进制转成八进制  oct(8)
+十进制转十六进制  hex(10)
+二进制转十六进制  hex(int('111',2))
+```
 
 **方法**
-    int.bit_length()   转化成二进制后的位数
+
+```python
+int.bit_length()   转化成二进制后的位数
     py2与py3除法区别
     py3:
         3 / 2  ==> 1.5   整除得float
@@ -59,6 +69,7 @@
         3 / 2  ==> 1     整除得int，除非除数或被除数为float才得float
         3.0 /2 ==>1.5
     py2与py3 整除(//)，取模 结果相同
+```
 
 ### 字符串
     **基础**
@@ -68,16 +79,16 @@
     str.replace(old,new,count)  替换字符，可指定次数
     str.split("char"，count)    以char进行分割，可指定次数，将字符串转换成列表
     "".join(str(i) for i in [11,22,33])  将可迭代的列表等转换成字符串，注意字符串拼接必须是str，int不行，需要先转才行
-
+    
     格式化：
     "%s_%d_%.2f" %('china', 22, 2)  格式化
     "%(name)s_%(age)d" %({"name":'china', "age":30})   可用字典
     "{0}_{1}_{0}".format()
-    "{user}_{pwd}".format(**{'name':'bei','age':30})
+    "{user}_{pwd}".format(**{'user':'bei','pwd':30})
     f"{name}"
-
+    
     字母的处理：
-    str.caplize()   首字母大写，其它都小写
+    str.captalize()   首字母大写，其它都小写
     str.swapcase()  大小写反转
     stt.title()     单词间空白或以下划线分割的字母首字母大写，其它字母都小写
     str.upper()     单词全部转成大写
@@ -87,7 +98,7 @@
     str.satrswith('char')   以什么开头
     str.endswith()
     str.isspace()     注意空字符串不是全部空白，需要中间加空格才行如：" "
-
+    
     查找元素：
     str.index('char', start,end)   查找元素的索引，有多个，发回第一次找到的元素的索引，没有报错
     str.find('char', start,end)    查索引，没有返回-1
@@ -123,14 +134,17 @@
         object in list   成员判断
 
 ### 元组tuple
-    **不可变，只读列表，有序，可迭代，元素可以为任意数据类型**
-    **方法**
-        tu.index(obj, start,end)
-        tu.count(obj)
-        len(tu)
-    **注意点**
-        单个元素时，要在后面加逗号： tu =(11,)   不加逗号就不是元组了，而是int
-        i = 1,    这个也是元组
+```python
+**不可变，只读列表，有序，可迭代，元素可以为任意数据类型**
+**方法**
+    tu.index(obj, start,end)
+    tu.count(obj)
+    len(tu)
+**注意点**
+    单个元素时，要在后面加逗号： tu =(11,)   不加逗号就不是元组了，而是int
+    i = 1,    这个也是元组
+# 涉及到数据共享时，必须用不可变的数据类型，如DRF框架中版本组件返回值就是一个版本号和版本实例化对象，django的路由系统也是返回一个三元组
+```
 
 ### 字典dict
     dic = {}
@@ -141,7 +155,7 @@
     dic[key] = value1    本质调用__getitem__和__setitem__
     dic1.update(dic2)   将dic2中的内容导入dic1，如果与dic1中key相同则覆盖更新
     dic.setdefault(key,value)  value默认为None，一旦创建就无法更改，value为可变数据类型【】，可向里面添加，共用一个内存空间
-    dict.fromkeys([a,b],value)  ==> {a:value,b:value}, value如果是可变数据类型，那么同上面一样也可添加，静态方法==>只有类可以调用
+    dict.fromkeys([a,b],value)  ==> {a:value,b:value}, value如果是可变数据类型，那么同上面一样也可添加，静态方法==>类和对象都可以调用，它没有self或cls参数，和普通函数一样
     **删：**
     dic.pop(key)   返回删除的值
     del dic[key]   无返回值
@@ -159,35 +173,323 @@
     dic.items()
 
 ### 集合set
-    **基础**
-        `可变数据类型`，`无序`，可增，删，不能直接改，`不能切片`，`元素唯一`，且只能是`不可哈希`类型
+```python
+**基础**
+    `可变数据类型`，`无序`，可增，删，不能直接改，`不能切片`，`元素唯一`，且只能是`不可哈希`类型
 
-    **增**
-    set.add(obj)
-    set.update(iterable)  打散元素添加到集合中
-    **删**
-    set.pop()  随机删除一个
-    set.remove(obj)
-    set.clear()
-    del set
-    **查**
-    没有方法用，无序不能切片，只能循环匹配
-    **共用**
-    len(set)
-    set.copy() 浅拷贝
+**增**
+set.add(obj)
+set.update(iterable)  打散元素添加到集合中
+**删**
+set.pop()  随机删除一个
+set.remove(obj)
+set.clear()
+del set
+**查**
+没有方法用，无序不能切片，只能循环匹配
+**共用**
+len(set)
+set.copy() 浅拷贝
+```
+
+## 文件操作
+
+### 基本操作
+
+```python
+f = open(filepath, method, encoding='utf-8')
+f.read()
+f.readline() # 读取一行
+f.readlines() # 一行行全部读出，放在列表中
+f.close()
+```
+
+## 其它
+
+### py2与py3的区别
+
+```python
+1. py2的默认编码尾ASCII码，py3为Unicode(utf-8)
+2. py2的print可括号也可以引号，2.6后可括号可不括号，py3需要括号
+3. py2有input输入int返回int型和raw_input输入int返回str型，py3中只有input，返回都为str型
+4. py2的int相除返回为int，py3为float
+5. py2有xrange生成器和range，py3只有range，他为可迭代对象
+6. py2文件操作有xreadlines它为生成器，py3没有
+```
+
+### Ascii,Unicode,Utf-8，Gbk的区别
+
+```python
+ASCII码为计算机最原始的编码，127个，因为是美国人发明的，没有中文，一个字符占一个字节
+Unicode为万国码，包含了所有国家的编码，一个字节占4个字节
+Utf-8为可变长度编码，对英文，数字还是一个字符占一个字节，对中文是一个中文占3个字节
+GBK为国标码，是因为万国码太占空间了，一个字符占3个字节
+```
+
+### UTF-8与GBK及unicode之间的转换
+
+```python
+utf8不能直接转gbk除了英文数字，都需要通过unicode中转
+1. utf-8 --> gbk
+s.decode('utf-8').encode('gbk')  # 先通过decode将utf8转成unicode，再通过encode将unicode编码成gbk
+```
+
+# 二、函数
+
+## 函数名
+
+```python
+- 函数名就是一个变量
+1. 查看函数名：func_name.__name__
+2. 查看装饰器后的函数名
+from functools import warps
+def wra(f):
+    @warps
+    def inner()
+    ……
+```
+
+## 函数参数
+
+```python
+- 函数声明的位置写的变量的声明
+- *args：接收多余的位置参数，以元组的方式呈现
+- **kwargs:接收多余的关键字参数，以字典的方式呈现
+- 形参顺序：位置参数、*args、默认参数、**kwargs
+```
+
+## 函数返回值
+
+## 闭包
+
+```python
+- 特点：
+1. 让一个变量常驻内存，不会随着函数的结束而关闭，减少开闭内存空间，提升执行效率
+2. 让变量不受外界的干扰而改变
+- 应用
+1. 装饰器就是一个闭包
+```
+
+## 三大器之装饰器
+
+- 定义：在不改变原函数的源代码和调用方式外，添加额外的功能，动态代理
+
+- 基本实例
+
+  ```python
+  def warpper(f):
+      def inner(*args,**kwargs):
+          ret = f(*args,**kwargs)
+          return ret
+      return inner
+  @warpper    ==> walk = warpper(walk)
+  def walk():
+      return 666
+  ```
+
+- 多层装饰器执行顺序
+
+  ```python
+  ([func])
+  ```
+
+- 应用
+
+  ```python
+  - flask路由系统就是通过装饰器
+  ```
+
+## 三大器之迭代器
+
+```python
+- 可迭代对象：内部含有__iter__方法
+	print('__iter__' in dir(list))
+- 迭代器：内部含有__iter__和__next__方法
+	print('__iter__' and '__next__' in dir(obj))   # 判断对象是否有该两个方法
+	form collections import Iterator,Iterable
+    print(isinstance(obj, Iterable))
+- 可迭代对象转迭代器
+	obj.__iter__()
+- 迭代器取值
+	obj.__next__()
+- 好处
+1. 节省内存
+2. 满足惰性机制，一次只取一个次
+3. 从前到后，不可逆
+- 哪些使用了
+1. for、sum、Max、min、生成器
+- 小缺点
+当取完值时，再取会报StopIteration,所以每次都通过try来解决
+```
+
+## 三大器之生成器
+
+```python
+- 本质：迭代器，遵循迭代器的规则
+- 可以模拟阻塞，异步
+- 特点：执行这个函数，并没有运行，而是帮你创建一个生成器对象，【生成器中对象中存的时代码！！！】
+- 创建
+1. 生成器函数
+def ge():
+    yield xxx
+gn = ge()
+gn.__next__()  或者用for
+send() 为上一个yield的位置传值，在下一次调用函数时会返回
+
+yield from 可迭代对象  : 将可迭代对象转成生成器
+
+2. 生成器表达式
+gn = (i for i in range(20))
+
+3. 推导式
+[i for i in range(10) if i >2]
+{k:v for k,v in enumerate(li, 1) if}
+{key for 循环 if }
+4. 三元表达式
+v1 if 条件 else v2    # 条件为真时取v1
+5. 扩展
+js： 条件？v1:v2
+```
+
+## 内置函数
+
+```python
+- 作用域
+globals()
+locals()
+- bin(),oct(),hex(),int()
+- ord(c) c对应的ASCII码值，chr(3) 对应的字符
+- divmod(a,b)  => 返回(商，余数)  ==> 用着分页
+- round(33.222, 2)  => 四舍五入，保留2位小数
+- len()
+- enumerate(list,start=int)  解构=> index,obj
+
+- reversed(序列)  => 生成新的对象，返回迭代器，反转
+- sorted(iter,key) =>排序
+- max(iter,key=func) => max(list,key=lambda x:x*-1)
+- min(同上)
+- filter(func,iterble)  # 过滤，指定的值
+- map(func,iterble)  # 循环迭代对象的每个元素，调用函数，返回列表
+- zip(iter,iter) ==>拉链  list(zip([1,2],[2,3])) = > [[1,2],[2,3]]
+
+- eval()  ==> 执行字符串表达式的值，有返回值  eval('round(33.3333,2)') =>33.33
+- exec()  ==> 同样执行字符串的表达式，可以执行更复杂的命令，返回值为None
+
+
+```
 
 
 
+# 三、面向对象
+
+## 单例模式
+
+1. 通过__new__建立单利模式
+
+```python
+class SingleInstance(object):
+    """单例模式"""
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls, *args, **kwargs)
+        return cls._instance
+
+
+class Me(object):
+    """解决计算实例化了多少个实例"""
+    _count = 0
+
+    def __new__(cls, *args, **kwargs):
+        cls._count += 1
+        super().__new__(cls)
+        
+class Wo:
+    _count = 0
+    def __init__(self,name):
+        Wo._count +=1
+        self.name = name
+print(Wo._count)
+```
+
+2. 导入模块也属于单例模式，因为解释器只会引入一次，重复导入没用
+
+## 类方法、静态方法、实例方法
+
+```python
+
+```
 
 
 
+# 四、算法
 
+- 冒泡
 
+  ```python
+  # 循环模式
+  # 核心：从头开始比较相邻两个数的大小，然后大的数与小的数交换位置，一直到最后一个，然后循环
+  for i in range(len(list) -1 ):  # 列表中多少个数，就比较多少趟,最后一次不用比
+      flag = False   # 设定条件，当循环一遍没有改变时，表示已经排好序了，修改flag，然后直接退出
+      for j in range(len(list) - i - 1)：  # 选一个数还要和列表中剩下的所有数比一次
+      	if list[j] > list[j+1]:
+              list[j], list[j+1] = list[j+1], list[j]
+              flag = True
+      if not flag:
+          break  
+  ```
 
+- 二分查找
 
+  ```python
+  # 前提列表必须是有序的
+  # 核心：掐头结尾取中间
+  def two_search(li, value):
+  	left = 0
+      right = len(li) -1 # 右边的索引
+      mind = (left + right) // 2
+      while left <= right:
+          if li[mind] == value:
+              return f'{value} index is: {mind}'
+          elif li[mind] > value:  # 说明要找的值在左边，首索引不变，尾索引移到mind前面
+              right = mind -1
+          elif li[mind] < value:
+              left = mind + 1
+      else:
+          print(f'列表中不存在{value}')      
+  ```
 
+- 通过列表模拟栈
 
+  ```python
+  class Stack:
+      def __init__(self, size):
+          self.size = size  # 指定栈的大小  ，len(list)
+          self.lst = []
+          self.index = 0  # 栈顶，也就是就下面的位置,时刻为下一个数的索引，开始为空，即为0
+      def push(self,v):
+          if self.index >= size：
+          	raise Exception('栈满了')
+          self.lst.insert(self.index, v)
+          self.index += 1
+     def pop(self,v):
+      	if self.index <=0:
+              raise Exception('栈空了')
+     		self.index -=1  # 从上往下去，最开始index在外面
+          return self.lst[self.index]
+          
+  ```
 
+- 
+
+- 
+
+- 树 - 》堆
+
+- 红黑树
+
+- 索引的本质，B树，B+树
 
 
 ```
