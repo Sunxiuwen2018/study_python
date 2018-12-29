@@ -1,5 +1,5 @@
-# 基础数据类型回顾
-## 一、概括 *七大类*
+# python小结
+## 一、基础数据类型概括 
 ```python
 1. 布尔 bool =>真假
 2. 数字 int
@@ -14,8 +14,8 @@
 **总结**
     1. 可迭代数据类型：str、list、tuple、dict、set
     2. 不可变数据类型：bool、int、float、str、tuple
-    3、 可变数据类型：list、dict、set
-    4、 可通过`+`号数据类型：int、float、str、list、tuple
+    3. 可变数据类型：list、dict、set
+    4. 可通过`+`号数据类型：int、float、str、list、tuple
 
     # 列表，字典，集合都有pop方法，del方法
     # pop 列表按索引，字典按对象，集合随机删
@@ -28,7 +28,7 @@
 ```python
 1. 非0,非空则为True，None不是False[通过is或==判断都是不正确的]，只有None,0,"",[],(),{},ser()等通过bool转化才为False
 2. is 判断的是内存地址，== 判断的是值
-3. 条件判断优先级顺序： 括号，not  or  and
+3. 条件判断优先级顺序： 括号，not, and, or
 4. 对于or，左边非零取左边，and相反
 ```
 
@@ -83,7 +83,7 @@ int.bit_length()   转化成二进制后的位数
     格式化：
     "%s_%d_%.2f" %('china', 22, 2)  格式化
     "%(name)s_%(age)d" %({"name":'china', "age":30})   可用字典
-    "{0}_{1}_{0}".format()
+    "{0}_{1}_{0}".format(a,b)
     "{user}_{pwd}".format(**{'user':'bei','pwd':30})
     f"{name}"
     
@@ -197,6 +197,9 @@ set.copy() 浅拷贝
 ### 基本操作
 
 ```python
+- 打开文件本质调用两个方法,python上下文管理
+__enter__ 和 __exit__
+
 f = open(filepath, method, encoding='utf-8')
 f.read()
 f.readline() # 读取一行
@@ -204,17 +207,21 @@ f.readlines() # 一行行全部读出，放在列表中
 f.close()
 ```
 
-## 其它
+## 面试考点
 
 ### py2与py3的区别
 
 ```python
-1. py2的默认编码尾ASCII码，py3为Unicode(utf-8)
-2. py2的print可括号也可以引号，2.6后可括号可不括号，py3需要括号
-3. py2有input输入int返回int型和raw_input输入int返回str型，py3中只有input，返回都为str型
-4. py2的int相除返回为int，py3为float
-5. py2有xrange生成器和range，py3只有range，他为可迭代对象
-6. py2文件操作有xreadlines它为生成器，py3没有
+1. py2解释器的默认编码为ASCII码，py3解释器默认编码为utf-8
+2. py2中的str对应py3中的bytes，unicode对应py3中的str
+3. py2中的类有经典类和新式类，py3中只有新式类，默认继承object类
+4. py2中只有yield，py3中除了yield还有yield from 可以把一个可迭代对象转成生成器
+5. py2的int相除返回为int，py3为float
+6. py2的print可括号也可以引号，2.6后可括号可不括号，py3需要括号
+7. py2有input输入int返回int型和raw_input输入int返回str型，py3中只有input，返回都为str型
+8. py2有xrange生成器和range，py3只有range，他为可迭代对象
+9. py2文件操作有xreadlines它为生成器，py3没有
+10. py2 有进程池，py3有线程池和进程池
 ```
 
 ### Ascii,Unicode,Utf-8，Gbk的区别
@@ -232,6 +239,42 @@ GBK为国标码，是因为万国码太占空间了，一个字符占3个字节
 utf8不能直接转gbk除了英文数字，都需要通过unicode中转
 1. utf-8 --> gbk
 s.decode('utf-8').encode('gbk')  # 先通过decode将utf8转成unicode，再通过encode将unicode编码成gbk
+```
+
+### python的安装方式
+
+```python
+- pip包管理安装
+1. pip intall package
+- 源码安装
+1. 下载，解压，切换到解码目录
+2. 编译：python setup.py build
+3. 安装：python setup.py install
+```
+
+### python的深浅拷贝
+
+```python
+- 浅拷贝：如果有嵌套的话，拷贝的是对象的第一层，改边嵌套层数据，拷贝与被拷贝方都会改变
+- 深拷贝：拷贝所有层 import copy  a = copy.deepcopy(li)
+```
+
+### python的垃圾回收机制
+
+```python
+- 计数   计算变量被引用的次数，引用则+，引用对象删除则-
+- 标记&清除 当内存不够时，遍历所有对象，看对象是否被引用，有则标记，遍历一遍后，把没有标记的删除
+- 分代  多次遍历，都存活的进行分代，提升层级，层级越高存活越久
+
+python的GC模块主要运用了引用计数的方法来跟踪和回收垃圾，但无法解决两个对象循环引用的问题，所以在此基础上通过标记-清除解决容器对象可能的循环引用，通过分代回收以空间换时间来进一步提高垃圾回收的效率。
+```
+
+###  解释型语言和编译型语言区别？
+
+```pyton
+编译型：运行前先由编译器将高级语言代码编译为对应机器的cpu汇编指令集，再由汇编器汇编为目标机器码，生成可执行文件，然最后运行生成的可执行文件。最典型的代表语言为C/C++，一般生成的可执行文件及.exe文件。 
+
+解释型：在运行时由翻译器将高级语言代码翻译成易于执行的中间代码，并由解释器（例如浏览器、虚拟机）逐一将该中间代码解释成机器码并执行（可看做是将编译、运行合二为一了）。最典型的代表语言为JavaScript、Python、Ruby和Perl等。 
 ```
 
 # 二、函数
@@ -256,16 +299,18 @@ def wra(f):
 - *args：接收多余的位置参数，以元组的方式呈现
 - **kwargs:接收多余的关键字参数，以字典的方式呈现
 - 形参顺序：位置参数、*args、默认参数、**kwargs
+- 经典范例
+def func(a,b=[]):
+    b.append(a)
+# 当函数的参数是可变类型数据，其它引用都是调用同一个对象
 ```
-
-## 函数返回值
 
 ## 闭包
 
 ```python
 - 特点：
 1. 让一个变量常驻内存，不会随着函数的结束而关闭，减少开闭内存空间，提升执行效率
-2. 让变量不受外界的干扰而改变
+2. 可以保护变量不被侵占修改
 - 应用
 1. 装饰器就是一个闭包
 ```
@@ -277,14 +322,22 @@ def wra(f):
 - 基本实例
 
   ```python
-  def warpper(f):
-      def inner(*args,**kwargs):
-          ret = f(*args,**kwargs)
-          return ret
-      return inner
-  @warpper    ==> walk = warpper(walk)
-  def walk():
-      return 666
+  def counter(num):
+      def outer(f):
+          def inner(*args,**kwargs):
+              rets = []
+          	for i in range(num):
+                  ret = f(*args, **kwargs)
+                  rets.append(ret)
+              return rets
+          return inner
+      return outer
+  # 通过带参数实现调用函数的次数
+  @counter(8)
+  def f():
+      pass
+  rets =f()
+  print(rets) 
   ```
 
 - 多层装饰器执行顺序
@@ -326,7 +379,7 @@ def wra(f):
 
 ```python
 - 本质：迭代器，遵循迭代器的规则
-- 可以模拟阻塞，异步
+- 可以模拟阻塞，异步，python中的携程实现就是通过生成器来实现任务之间的切换
 - 特点：执行这个函数，并没有运行，而是帮你创建一个生成器对象，【生成器中对象中存的时代码！！！】
 - 创建
 1. 生成器函数
@@ -349,6 +402,11 @@ gn = (i for i in range(20))
 v1 if 条件 else v2    # 条件为真时取v1
 5. 扩展
 js： 条件？v1:v2
+    
+- 进阶
+v = [lamda :i for i in range(10)]  
+v 里存的是函数，但未执行
+当v[5]()执行时，此时i为9，故返回值为9
 ```
 
 ## 内置函数
@@ -371,30 +429,136 @@ locals()
 - filter(func,iterble)  # 过滤，指定的值
 - map(func,iterble)  # 循环迭代对象的每个元素，调用函数，返回列表
 - zip(iter,iter) ==>拉链  list(zip([1,2],[2,3])) = > [[1,2],[2,3]]
+- reduce() 
+from functools import reduce  # 归纳
+li = [1,2,5,6]  # 先算前两位之和，之后和后面的数相加
+s = reduce(lambda x,y:x+y, li)  => 1,2:1+2 => 3,5 =>3+5 =>8,6 => 14
 
 - eval()  ==> 执行字符串表达式的值，有返回值  eval('round(33.3333,2)') =>33.33
 - exec()  ==> 同样执行字符串的表达式，可以执行更复杂的命令，返回值为None
-
-
 ```
-
-
 
 # 三、面向对象
 
-## 单例模式
+### 编程模式
+
+- 面向过程：按照事务的发展顺序去写代码，局限性大，非常复杂的项目就不好处理
+- 面向对象：侧重点在对象，让对象去做指定事情，所有的数据都保存在对象里面，扩展性强，以对象为中心
+
+### 面向对象三大特性
+
+```python
+- 封装 ：隐藏对象的属性和实现细节，便于将变化隔离，提高复用性，安全性，提供统一的接口
+	1. 组合：给一个类的对象，封装一个属性，这个属性是另一个类的对象
+- 继承：子类可以自动拥有父类中除了私有内容(即双下划线开头定义的方法和属性)外的其它所有内容
+	1. python中支持多继承，java等中不支持
+    2. py3中类继承mro的核心是C3算法
+- 多态：python天生多态，python的对象没有指定数据类型，执行的是动态数据绑定
+	同一个对象，拥有多种形态，python的多态性经典的就是鸭子模型，看起来像就是，如list，dict，set都有pop方法
+    
+from abc import ABCMeta，abstractmethod
+# 抽象类中可以有抽象方法
+# 有抽象方法的类一定是抽象类
+# 接口类：类中所有的方法都是抽象方法
+class Base(metaclass=ABCMeta):
+    @abstractmethod
+    def login(self):
+        pass   # 对子类进行约束，约束子类中必须要重写该方法，否则报错
+- 约束
+	父类对子类进行约束
+    1. 使用抛异常的形式来完成对子类的约束
+    2. 使用抽象类，接口类来完成约束
+```
+
+```python
+- 备注C3算法算继承
+class A:
+    pass
+class B(A):
+    pass
+class C(A):
+    pass
+class D(B,C):
+    pass
+class E(D, A):
+    pass
+class F(D):
+    pass
+class G(E):
+    pass
+class H:
+    pass
+
+class I(H, F, G):
+    pass
+print(I.__mro__)
+'''
+    设L()为求某个类的MRO
+    1. 拆分
+    L(I) = I + L(H) + L(F) + L(G) + HFG
+    L(H) = H 
+    L(F) = F + L(D) + D
+    L(G) = G + L(E) + E
+    L(D) = D + L(B) + L(C) + BC
+    L(E) = E + L(D) + L(A) + DA
+    L(A) = A
+    L(B) = B + L(A) + A
+    L(C) = C + L(A) + A
+    
+    2. 合并, c3算法的核心就是这个merge, 用前面的第一项的头和后面每一项的身体比较. 如果头没有在后面的身体里出现. 
+    这个头会被算出, 继续用头去比较后面的身体. 如果头在后面的身体中出现了, 此时更换为第二项的头继续和其他项的身体比较
+    .....
+    
+    L(I) = IHFGEDBCA
+    L(H) = H 
+    L(F) = FDBCA
+    L(G) = GEDBCA
+    L(D) = DBCA
+    L(E) = EDBCA
+    L(A) = A
+    L(B) = BA
+    L(C) = CA
+'''
+```
+
+### self是谁
+
+```python
+谁调用的就是谁
+```
+
+### super的作用
+
+```python
+根据mro的顺序，执行下一个类中对应的方法
+#如继承顺序是：A-B-C-D
+super().方法（）# 执行当前对象的下一个类中对应的方法，即父类A
+super(B,self).方法() # 即找B类的下一个继承C中的方法
+```
+
+### 单例模式
+
+> 某个类只有一个实例
+>
+> 最常见的就是模块导入就是一个单例模式，一个模块导入解释器只会载入一次
 
 1. 通过__new__建立单利模式
 
 ```python
+# 要考虑多线程，当创建对象时很慢，那么就不是单利了，所以要加上锁
+import threading
 class SingleInstance(object):
     """单例模式"""
     _instance = None
-
+	_lock = threading.Rlock()
+    
     def __new__(cls, *args, **kwargs):
-        if cls._instance is None:
-            cls._instance = super().__new__(cls, *args, **kwargs)
-        return cls._instance
+        if cls._instance:
+            return cls._instance
+        with cls._lock:
+            if cls._instance is None:
+                cls._instance = super().__new__(cls, *args, **kwargs)
+            return cls._instance
 
 
 class Me(object):
@@ -413,17 +577,85 @@ class Wo:
 print(Wo._count)
 ```
 
-2. 导入模块也属于单例模式，因为解释器只会引入一次，重复导入没用
-
-## 类方法、静态方法、实例方法
+### 哪里用到单利模式？
 
 ```python
+1. 模块的导入就是单利模式
+只有第一次导入时加载生成pyc文件，后面加载只会加载一次，如django的admin注册admin.site
+2. 数据库连接池
+```
+
+### 类方法、静态方法、实例方法、特性
+
+```python
+- 类方法 @classmethod  通常给类使用，第一个参数必须是cls，本质是类中定义的方法
+	任何情况都是方法
+- 静态方法 @staticmethod 对参数没有要求，本质是在类中声明了一堆函数,都能调用
+    cls.fun() 
+    任何情况都是函数
+- 实例方法
+	1. 类名.方法()  此时方法就是函数
+    2. 对象.方法()   此时就是方法
+	1. 绑定给对象用的方法，如__init__，类中所有的函数，都是对象的绑定方法
+    obj.fun()
+- 特性 @property
+	1. 没有参数，将方法当属性使用,不能被赋值
+__开头的内容，只能是类中调用，对象和子类无法调用，本质是变形：_类名__xxx
+
+-- 类方法和静态方法的区别
+相同点：
+1. 都可以用类名去调用里面的方法和属性
+2. 不需要实例化
+不同点：
+1. 静态方法不需要传self
+2. 类方法必须有一个cls参数表示这个类，可以使用类属性
+```
+
+### 特殊方法
+
+```python
+__new__  返回一个对象
+__init__ 构造方法，为对象封装属性
+__call__ 对象加括号，flask的app.run()就是这个的调用，django的wsgi也是
+__enter__ with管理文件的打开
+__exit__  文件的关闭
+__str__   打印对象的显示
+__repr__ 对象的官方字符串表示，很多时候容器类打印  repr() 把一个对象还原成应该显示的样子
+__getattr__ 反射中的获取对象的属性
+__setattr__
+__delattr__
+__hasattr__
+__getitem__  obj[key]  对象中括号获取属性
+__setitem__
+__delitem__
+__del__ 析构方法
+__doc__
+__name__
+__dict__ 对象或类中的所有的属性或方法
+__base__ 类的所有父类
 
 ```
 
+#  四、网络
 
+```python
+- osi七层模型
+- 三次握手
+- 四次挥手
+- tcp、udp区别：
+tcp  流  
+udp  包   不安全不保证安全到达，速度快
+```
 
-# 四、算法
+### 进程、线程、携程
+
+```python
+进程是计算机中最小的资源分配单位
+线程cpu调度的最小单位
+协程  是由程序员创建的，可以称为微线程，来回切换，不一定提高效率，当有IO时切换，那么效率就高些，让线程不闲置，它就是一个线程，通过切换来执行的
+```
+
+# 五、算法
 
 - 冒泡
 
